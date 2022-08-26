@@ -1,0 +1,65 @@
+{
+	"compiler": {
+		"version": "0.8.15+commit.e14f2714"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"name": "isAlive",
+				"outputs": [],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "text",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/test/TestDeployed.sol": "Service"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/test/TestDeployed.sol": {
+			"keccak256": "0x1f190c81f598bd0bfd38fb1569368d92f00c49a54f044d74f2e32bfec247630e",
+			"urls": [
+				"bzz-raw://baa874eba4a2a09840b212dacec4d7490c0eebaf023c71a2f04f3dc7518e790c",
+				"dweb:/ipfs/QmdCrVG1Pay6FrD8582Smh8gu49nqgpkSZRNxJcrAM2HQd"
+			]
+		}
+	},
+	"version": 1
+}

@@ -1,0 +1,63 @@
+{
+	"compiler": {
+		"version": "0.8.4+commit.c7e474f2"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [
+			{
+				"inputs": [],
+				"stateMutability": "nonpayable",
+				"type": "constructor"
+			},
+			{
+				"inputs": [],
+				"name": "swap",
+				"outputs": [
+					{
+						"internalType": "bool",
+						"name": "",
+						"type": "bool"
+					}
+				],
+				"stateMutability": "nonpayable",
+				"type": "function"
+			}
+		],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/Smart.sol": "TokenSwapper"
+		},
+		"evmVersion": "istanbul",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": false,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/Smart.sol": {
+			"keccak256": "0xadd5c66985845baed664de4a6d206cebba343337f8d97da83b04b58d2e8fea3d",
+			"urls": [
+				"bzz-raw://ccb0e8f0e428f5eeadea2e3e709f2736db1caca9e008f0d1f51d512d9738b975",
+				"dweb:/ipfs/QmQXgL6zyup54NvaCTQwrZhk899Dp86aX1WbFwoWd4ph4Y"
+			]
+		}
+	},
+	"version": 1
+}

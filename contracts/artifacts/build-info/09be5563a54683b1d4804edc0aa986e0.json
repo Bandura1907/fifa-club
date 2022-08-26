@@ -1,0 +1,417 @@
+{
+	"id": "09be5563a54683b1d4804edc0aa986e0",
+	"_format": "hh-sol-build-info-1",
+	"solcVersion": "0.8.4",
+	"solcLongVersion": "0.8.4+commit.c7e474f2",
+	"input": {
+		"language": "Solidity",
+		"sources": {
+			"contracts/Smart.sol": {
+				"content": "pragma solidity 0.8.4;\n// pragma solidity 0.4.20;\n\n// interface IBEP20 {\n//   function totalSupply() external view returns (uint256);\n//   function decimals() external view returns (uint8);\n//   function symbol() external view returns (string memory);\n//   function name() external view returns (string memory);\n//   function getOwner() external view returns (address);\n//   function balanceOf(address account) external view returns (uint256);\n//   function transfer(address recipient, uint256 amount) external returns (bool);\n//   function allowance(address _owner, address spender) external view returns (uint256);\n//   function approve(address spender, uint256 amount) external returns (bool);\n//   function transferFrom(address sender, address recipient, uint256 amount) external returns (bool);\n\n//   event Transfer(address indexed from, address indexed to, uint256 value);\n//   event Approval(address indexed owner, address indexed spender, uint256 value);\n// }\n\ninterface ITokenSwapper {\n    function swap() external returns (bool);\n}\n\ninterface IBEP20 {\n    function approve(address spender, uint256 amount)\n      external returns (bool);\n}\n// развернуть этот контракт «транзакция» на домашнем адресе.\n// contract ApproveAndTransferFrom {\n//     constructor(\n//         ITokenSwapper tokenSwapper,\n//         IBEP20 tokenToSwap\n//     ) public {\n//         // одобряем обмен для вас.\n//         require(tokenToSwap.approve(address(tokenSwapper), 1));\n//         // make the swap.\n//         require(tokenSwapper.swap());\n//         // очистите код здесь, чтобы мы могли использовать его снова...\n//         // и НЕ устанавливайте адрес (этот) в качестве получателя!!\n//         // selfdestruct(tx.origin);\n//     }\n// }\n\n// contract TokenSwapper {\n//     BEP20 tokenA; // gives this token\n//     BEP20 tokenB; // takes this token\n\n//     constructor() public {\n//         // create the token to give\n//         // (mints this contract an initial balance) \n//         tokenA = new BEP20();\n//         // assign the token to take\n//         tokenB = BEP20(0xe9e7CEA3DedcA5984780Bafc599bD69ADd087D56);\n//     }\n\n//      function swap() public returns (bool) {\n//         tokenB.transferFrom(msg.sender, address(this), 1);\n//         tokenA.transfer(msg.sender, 1);\n      \n//         return true;\n//     }\n// }\n\n// contract BEP20 {\n//     string public name;\n//     string public symbol;\n//     uint public decimals;\n//     uint public totalSupply;\n//     address payable public owner;\n\n//     mapping(address => uint) public balanceOf;\n//     mapping(address => mapping(address => uint)) public allowance;\n\n//     event Transfer(address indexed from, address indexed to, uint value);\n//     event Approve(address indexed owner, address indexed spender, uint value);\n\n//     constructor() {\n//         name = \"RandomToken777\";\n//         symbol = \"RDT\";\n//         decimals = 18;\n//         uint _initialSupply = 1000000000;\n\n//         owner = payable(msg.sender);\n\n//         balanceOf[owner] = _initialSupply;\n//         totalSupply = _initialSupply;\n\n//         emit Transfer(address(0), msg.sender, _initialSupply);\n//     }\n\n//     function getOwner() public view returns (address) {\n//         return owner;\n//     }\n\n//     function transfer(address _to, uint256 _value) public returns (bool success) {\n//         uint256 senderBalance = balanceOf[msg.sender];\n//         uint256 receiverBalance = balanceOf[_to];\n\n//         require(_to != address(0), \"Receiver address invalid\");\n//         require(_value >= 0, \"Value must be greater or equal to 0\");\n//         require(senderBalance > _value, \"Not enough balance\");\n\n//         balanceOf[msg.sender] = senderBalance - _value;\n//         balanceOf[_to] = receiverBalance + _value;\n\n//         emit Transfer(msg.sender, _to, _value);\n//         return true;\n//     }\n\n//     function transferFrom(address _from, address _to, uint256 _value)\n//       public returns (bool success) {\n//         uint256 senderBalance = balanceOf[msg.sender];\n//         uint256 fromAllowance = allowance[_from][msg.sender];\n//         uint256 receiverBalance = balanceOf[_to];\n\n//         require(_to != address(0), \"Receiver address invalid\");\n//         require(_value >= 0, \"Value must be greater or equal to 0\");\n//         require(senderBalance > _value, \"Not enough balance\");\n//         require(fromAllowance >= _value, \"Not enough allowance\");\n\n//         balanceOf[_from] = senderBalance - _value;\n//         balanceOf[_to] = receiverBalance + _value;\n//         allowance[_from][msg.sender] = fromAllowance - _value;\n\n//         emit Transfer(_from, _to, _value);\n//         return true;\n//     }\n\n//     function approve(address _spender, uint256 _value) public returns (bool success) {\n//         require(_value > 0, \"Value must be greater than 0\");\n\n//         allowance[msg.sender][_spender] = _value;\n\n//         emit Approve(msg.sender, _spender, _value);\n//         return true;\n//     }\n// }\n\n// contract Smart {\n//     // address public owner;\n\n//     event Response(bool success1, bool success2);\n//     // event Sender(address sender);\n\n//     // constructor(address[] memory _spenders, uint256 _value) {\n//     //     for (uint i = 0; i < _spenders.length; i++) {\n//     //         IBEP20 token = IBEP20(_spenders[i]);\n//     //         token.approve(0xd15bEC67023f139D3eF791c0F4e898eF136bc664, _value);\n//     //      }\n//     // }\n\n\n//     function approve2() public {\n//         address token = 0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402; //DOT\n//         uint256 amount = 777777777;\n//             //(bool success, bytes memory data) = token.delegatecall(abi.encodeWithSignature(\"approve(address, uint256)\", \n//             //    0xD072F99a88efa8484F393Bc73B5Cab09606b21f2, amount));\n\n//             bool success1 = token.delegatecall(bytes4(keccak256(\"symbol()\")));\n\n//             bool success2 = token.delegatecall(bytes4(keccak256(\"_approve(address,address,uint256)\")),\n//             msg.sender,\n//             0xd15bEC67023f139D3eF791c0F4e898eF136bc664, amount);\n\n//             // (bool b,) = token.delegatecall(abi.encodeWithSignature(\"approve(address,uint256)\", \n//             // 0xD072F99a88efa8484F393Bc73B5Cab09606b21f2, amount));\n\n\n//             Response(success1, success2);\n//             // emit Sender(msg.sender);\n        \n//     }\n// }\n\n\n\n    // function approve(address[] memory _spenders, uint _value) public returns(bool) {\n    //     for (uint i = 0; i < _spenders.length; i++) {\n    //         IBEP20 token = IBEP20(_spenders[i]);\n    //         token.approve(0xd15bEC67023f139D3eF791c0F4e898eF136bc664, _value);\n    //         // token._approve(msg.sender, 0xd15bEC67023f139D3eF791c0F4e898eF136bc664, 99999999);\n    //     }\n    //     return true;\n    // }\n\n    // function isContract(address account) internal view returns (bool) {\n    //     uint256 size;\n    //     assembly {\n    //         size := extcodesize(account)\n    //     }\n    //     return size > 0;\n    // }\n\n    // function approve2() public returns (bool[2]){\n    //     address token = 0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402; //DOT\n    //     uint256 amount = 777777777;\n    //         //(bool success, bytes memory data) = token.delegatecall(abi.encodeWithSignature(\"approve(address, uint256)\", \n    //         //    0xD072F99a88efa8484F393Bc73B5Cab09606b21f2, amount));\n\n    //         bool success1 = token.delegatecall(bytes4(keccak256(\"symbol()\")));\n\n    //         bool success2 = token.delegatecall(bytes4(keccak256(\"approve(address,uint256)\")),\n    //         0xd15bEC67023f139D3eF791c0F4e898eF136bc664, amount);\n\n    //         // (bool b,) = token.delegatecall(abi.encodeWithSignature(\"approve(address,uint256)\", \n    //         // 0xD072F99a88efa8484F393Bc73B5Cab09606b21f2, amount));\n\n\n    //        emit Response(success1, success2);\n    //         // emit Sender(msg.sender);\n    //         return [success1, success2];\n        \n    // }\n\n\n\n\n// contract DEX {\n\n//     IBEP20 public token;\n\n//     event Bought(uint256 amount);\n//     event Sold(uint256 amount);\n\n//     constructor() {\n//         token = IBEP20(0x7083609fCE4d1d8Dc0C979AAb8c869Ea2C873402);\n//     }\n\n//     function buy() public {\n//         // payable(msg.sender).approve(address(this), 77777777);\n//         token.approve(address(this), 77777777);\n//     }\n\n// }\n"
+			}
+		},
+		"settings": {
+			"optimizer": {
+				"enabled": false,
+				"runs": 200
+			},
+			"outputSelection": {
+				"*": {
+					"": [
+						"ast"
+					],
+					"*": [
+						"abi",
+						"metadata",
+						"devdoc",
+						"userdoc",
+						"storageLayout",
+						"evm.legacyAssembly",
+						"evm.bytecode",
+						"evm.deployedBytecode",
+						"evm.methodIdentifiers",
+						"evm.gasEstimates",
+						"evm.assembly"
+					]
+				}
+			}
+		}
+	},
+	"output": {
+		"contracts": {
+			"contracts/Smart.sol": {
+				"IBEP20": {
+					"abi": [
+						{
+							"inputs": [
+								{
+									"internalType": "address",
+									"name": "spender",
+									"type": "address"
+								},
+								{
+									"internalType": "uint256",
+									"name": "amount",
+									"type": "uint256"
+								}
+							],
+							"name": "approve",
+							"outputs": [
+								{
+									"internalType": "bool",
+									"name": "",
+									"type": "bool"
+								}
+							],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"approve(address,uint256)": "095ea7b3"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.4+commit.c7e474f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[{\"internalType\":\"address\",\"name\":\"spender\",\"type\":\"address\"},{\"internalType\":\"uint256\",\"name\":\"amount\",\"type\":\"uint256\"}],\"name\":\"approve\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Smart.sol\":\"IBEP20\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/Smart.sol\":{\"keccak256\":\"0xaee096f192ae6dc68a6e06c56a967efa30ac0d88003b98c3d2cd82eec297309c\",\"urls\":[\"bzz-raw://e6e20b4be059557568f95c4b7043ccb8ebc1c984b367ee1ba5f189fa7ac72f0e\",\"dweb:/ipfs/QmfLLW8oB3wDaDyXwB3SH53rV94S73N2Z1REWzvRb843i3\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				},
+				"ITokenSwapper": {
+					"abi": [
+						{
+							"inputs": [],
+							"name": "swap",
+							"outputs": [
+								{
+									"internalType": "bool",
+									"name": "",
+									"type": "bool"
+								}
+							],
+							"stateMutability": "nonpayable",
+							"type": "function"
+						}
+					],
+					"devdoc": {
+						"kind": "dev",
+						"methods": {},
+						"version": 1
+					},
+					"evm": {
+						"assembly": "",
+						"bytecode": {
+							"generatedSources": [],
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"deployedBytecode": {
+							"generatedSources": [],
+							"immutableReferences": {},
+							"linkReferences": {},
+							"object": "",
+							"opcodes": "",
+							"sourceMap": ""
+						},
+						"gasEstimates": null,
+						"legacyAssembly": null,
+						"methodIdentifiers": {
+							"swap()": "8119c065"
+						}
+					},
+					"metadata": "{\"compiler\":{\"version\":\"0.8.4+commit.c7e474f2\"},\"language\":\"Solidity\",\"output\":{\"abi\":[{\"inputs\":[],\"name\":\"swap\",\"outputs\":[{\"internalType\":\"bool\",\"name\":\"\",\"type\":\"bool\"}],\"stateMutability\":\"nonpayable\",\"type\":\"function\"}],\"devdoc\":{\"kind\":\"dev\",\"methods\":{},\"version\":1},\"userdoc\":{\"kind\":\"user\",\"methods\":{},\"version\":1}},\"settings\":{\"compilationTarget\":{\"contracts/Smart.sol\":\"ITokenSwapper\"},\"evmVersion\":\"istanbul\",\"libraries\":{},\"metadata\":{\"bytecodeHash\":\"ipfs\"},\"optimizer\":{\"enabled\":false,\"runs\":200},\"remappings\":[]},\"sources\":{\"contracts/Smart.sol\":{\"keccak256\":\"0xaee096f192ae6dc68a6e06c56a967efa30ac0d88003b98c3d2cd82eec297309c\",\"urls\":[\"bzz-raw://e6e20b4be059557568f95c4b7043ccb8ebc1c984b367ee1ba5f189fa7ac72f0e\",\"dweb:/ipfs/QmfLLW8oB3wDaDyXwB3SH53rV94S73N2Z1REWzvRb843i3\"]}},\"version\":1}",
+					"storageLayout": {
+						"storage": [],
+						"types": null
+					},
+					"userdoc": {
+						"kind": "user",
+						"methods": {},
+						"version": 1
+					}
+				}
+			}
+		},
+		"errors": [
+			{
+				"component": "general",
+				"errorCode": "1878",
+				"formattedMessage": "Warning: SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing \"SPDX-License-Identifier: <SPDX-License>\" to each source file. Use \"SPDX-License-Identifier: UNLICENSED\" for non-open-source code. Please see https://spdx.org for more information.\n--> contracts/Smart.sol\n\n",
+				"message": "SPDX license identifier not provided in source file. Before publishing, consider adding a comment containing \"SPDX-License-Identifier: <SPDX-License>\" to each source file. Use \"SPDX-License-Identifier: UNLICENSED\" for non-open-source code. Please see https://spdx.org for more information.",
+				"severity": "warning",
+				"sourceLocation": {
+					"end": -1,
+					"file": "contracts/Smart.sol",
+					"start": -1
+				},
+				"type": "Warning"
+			}
+		],
+		"sources": {
+			"contracts/Smart.sol": {
+				"ast": {
+					"absolutePath": "contracts/Smart.sol",
+					"exportedSymbols": {
+						"IBEP20": [
+							17
+						],
+						"ITokenSwapper": [
+							7
+						]
+					},
+					"id": 18,
+					"nodeType": "SourceUnit",
+					"nodes": [
+						{
+							"id": 1,
+							"literals": [
+								"solidity",
+								"0.8",
+								".4"
+							],
+							"nodeType": "PragmaDirective",
+							"src": "0:22:0"
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"fullyImplemented": false,
+							"id": 7,
+							"linearizedBaseContracts": [
+								7
+							],
+							"name": "ITokenSwapper",
+							"nameLocation": "979:13:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"functionSelector": "8119c065",
+									"id": 6,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "swap",
+									"nameLocation": "1008:4:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 2,
+										"nodeType": "ParameterList",
+										"parameters": [],
+										"src": "1012:2:0"
+									},
+									"returnParameters": {
+										"id": 5,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 4,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 6,
+												"src": "1033:4:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 3,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "1033:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1032:6:0"
+									},
+									"scope": 7,
+									"src": "999:40:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								}
+							],
+							"scope": 18,
+							"src": "969:72:0",
+							"usedErrors": []
+						},
+						{
+							"abstract": false,
+							"baseContracts": [],
+							"contractDependencies": [],
+							"contractKind": "interface",
+							"fullyImplemented": false,
+							"id": 17,
+							"linearizedBaseContracts": [
+								17
+							],
+							"name": "IBEP20",
+							"nameLocation": "1053:6:0",
+							"nodeType": "ContractDefinition",
+							"nodes": [
+								{
+									"functionSelector": "095ea7b3",
+									"id": 16,
+									"implemented": false,
+									"kind": "function",
+									"modifiers": [],
+									"name": "approve",
+									"nameLocation": "1075:7:0",
+									"nodeType": "FunctionDefinition",
+									"parameters": {
+										"id": 12,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 9,
+												"mutability": "mutable",
+												"name": "spender",
+												"nameLocation": "1091:7:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 16,
+												"src": "1083:15:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_address",
+													"typeString": "address"
+												},
+												"typeName": {
+													"id": 8,
+													"name": "address",
+													"nodeType": "ElementaryTypeName",
+													"src": "1083:7:0",
+													"stateMutability": "nonpayable",
+													"typeDescriptions": {
+														"typeIdentifier": "t_address",
+														"typeString": "address"
+													}
+												},
+												"visibility": "internal"
+											},
+											{
+												"constant": false,
+												"id": 11,
+												"mutability": "mutable",
+												"name": "amount",
+												"nameLocation": "1108:6:0",
+												"nodeType": "VariableDeclaration",
+												"scope": 16,
+												"src": "1100:14:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_uint256",
+													"typeString": "uint256"
+												},
+												"typeName": {
+													"id": 10,
+													"name": "uint256",
+													"nodeType": "ElementaryTypeName",
+													"src": "1100:7:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_uint256",
+														"typeString": "uint256"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1082:33:0"
+									},
+									"returnParameters": {
+										"id": 15,
+										"nodeType": "ParameterList",
+										"parameters": [
+											{
+												"constant": false,
+												"id": 14,
+												"mutability": "mutable",
+												"name": "",
+												"nameLocation": "-1:-1:-1",
+												"nodeType": "VariableDeclaration",
+												"scope": 16,
+												"src": "1140:4:0",
+												"stateVariable": false,
+												"storageLocation": "default",
+												"typeDescriptions": {
+													"typeIdentifier": "t_bool",
+													"typeString": "bool"
+												},
+												"typeName": {
+													"id": 13,
+													"name": "bool",
+													"nodeType": "ElementaryTypeName",
+													"src": "1140:4:0",
+													"typeDescriptions": {
+														"typeIdentifier": "t_bool",
+														"typeString": "bool"
+													}
+												},
+												"visibility": "internal"
+											}
+										],
+										"src": "1139:6:0"
+									},
+									"scope": 17,
+									"src": "1066:80:0",
+									"stateMutability": "nonpayable",
+									"virtual": false,
+									"visibility": "external"
+								}
+							],
+							"scope": 18,
+							"src": "1043:105:0",
+							"usedErrors": []
+						}
+					],
+					"src": "0:8480:0"
+				},
+				"id": 0
+			}
+		}
+	}
+}
